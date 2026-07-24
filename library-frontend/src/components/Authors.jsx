@@ -58,32 +58,36 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <h3>Set birthyear</h3>
-      <form onSubmit={submit}>
-        <div>
-          <label>
-            name
-            <select value={name} onChange={({ target }) => setName(target.value)}>
-              <option value="">select author</option>
-              {authors.map((a) => (
-                <option key={a.id} value={a.name}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-          born
-            <input
-              value={born}
-              onChange={({ target }) => setBorn(target.value)}
-            />
-          </label>
-        </div>
-        <button type="submit">update author</button>
-      </form>
+      {props.token && (
+      <div>
+        <h3>Set birthyear</h3>
+        <form onSubmit={submit}>
+          <div>
+            <label>
+              name
+              <select value={name} onChange={({ target }) => setName(target.value)}>
+                <option value="">select author</option>
+                {authors.map((a) => (
+                  <option key={a.id} value={a.name}>
+                    {a.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>
+            born
+              <input
+                value={born}
+                onChange={({ target }) => setBorn(target.value)}
+              />
+            </label>
+          </div>
+          <button type="submit">update author</button>
+        </form>
+      </div>
+      )}
     </div>
   )
 }
