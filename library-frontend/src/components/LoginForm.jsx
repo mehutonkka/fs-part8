@@ -1,25 +1,32 @@
 import { useState } from 'react'
-import { useMutation } from '@apollo/client/react'
+import { useApolloClient, useMutation } from '@apollo/client/react'
 import { LOGIN } from '../queries'
 
 const LoginForm = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const client = useApolloClient()
+
   const [ login ] = useMutation(LOGIN, {
-    onCompleted: (data) => {
+    onCompleted: async (data) => {
       const token = data.login.value
       props.setToken(token)
       localStorage.setItem('library-user-token', token)
+
+      await client.resetStore()
+
+      setUsername('')
+      setPassword('')
     },
     onError: (error) => {
       props.setError(error.message)
     }
   })
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
-    login({ variables: { username, password } })
+    await login({ variables: { username, password } })
   }
   if (!props.show) {
     return null
